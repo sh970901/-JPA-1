@@ -24,5 +24,4 @@ public class Member {
     @OneToMany(mappedBy = "member") //나는 매핑되었다.
     private List<Order> orders = new ArrayList<>();
 
-
 }
