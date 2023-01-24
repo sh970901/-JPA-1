@@ -34,7 +34,7 @@ public class MemberServiceTest {
         //when
         Long savedId = memberService.join(member);
 
-        em.flush();
+        em.flush(); //db에 insert를 해줌
 
         //then
         assertThat(member.getId()).isEqualTo(savedId);

@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) //한 테이블에 다 때려박음
 @Getter
+@Setter
 public abstract class Item {
     @Id
     @GeneratedValue
