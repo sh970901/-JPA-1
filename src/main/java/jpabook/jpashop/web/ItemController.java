@@ -53,6 +53,7 @@ public class ItemController {
         form.setStockQuantity(item.getStockQuantity());
         form.setAuthor(item.getAuthor());
         form.setIsbn(item.getIsbn());
+        //set을 차라리 객체 레벨에서 change 함수로 한번에 처리하는 것이 좋음
         model.addAttribute("form", form);
         return "items/updateItemForm";
     }
