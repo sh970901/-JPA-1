@@ -21,6 +21,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    //LAZY로 되어있으면 DB에 안감 애초에 member에 손을 안댐, 그렇다해서 null을 넣을 수 없으니 프록시객체를 넣어둠 ByteBuddy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id") //외래키가 걸림 //Many쪽이 외래키가 걸리고 연관 관계 주인으로 잡으면 편함
     private Member member;
