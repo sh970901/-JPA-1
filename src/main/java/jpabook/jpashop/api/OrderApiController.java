@@ -18,8 +18,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class OrderApiController {
+    //주문 -> 주문 상품 1: N 관계 
     private final OrderRepository orderRepository;
 
+    //엔티티 직접 노출
     @GetMapping("/api/v1/orders")
     public List<Order> ordersV1(){
         List<Order> all = orderRepository.findAllByString(new OrderSearch());
@@ -35,9 +37,22 @@ public class OrderApiController {
         return all;
     }
 
+    //DTO로 변환 -> 쿼리가 많이 나감
     @GetMapping("/api/v2/orders")
     public List<OrderDto> orderV2(){
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
+        List<OrderDto> collect = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return collect;
+    }
+
+    //페치 조인 최적화
+    //1대다의 경우 페이징이 불가 -> 페이징을 메모리에서 돌림 (애플리케이션)
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> orderV3(){
+        List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> collect = orders.stream()
                 .map(o -> new OrderDto(o))
                 .collect(Collectors.toList());
