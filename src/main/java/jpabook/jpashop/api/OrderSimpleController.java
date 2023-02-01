@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class OrderSimpleController {
-
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
     private final OrderRepository orderRepository;
 
     //엔티티를 외부에 반환하지말자... 프록시객체 채울라고 Hibernate5JakartaModule받고 값 넣을라고 강제 초기화까지 함 -> 그렇다고 EAGER 걸면 나중에 큰일남...
@@ -48,6 +50,7 @@ public class OrderSimpleController {
         return result;
     }
 
+    //fetch join
     @GetMapping("/api/v3/simple-orders")
     public List<SimpleOrderDto> orderV3(){
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
@@ -57,6 +60,14 @@ public class OrderSimpleController {
 
         return result;
     }
+
+    //dto로 바로 조회
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> orderV4(){
+        return orderSimpleQueryRepository.findOrderDtos();
+    }
+
+
     @Data
     static class SimpleOrderDto{
         private Long orderId;

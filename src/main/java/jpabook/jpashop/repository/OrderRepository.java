@@ -5,6 +5,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -97,6 +99,11 @@ public class OrderRepository {
         return query.getResultList();
     }
 
+    /**
+     * 조회의 주체가 되는 Entity 이외에 Fetch Join이 걸린 연관 Entity도 함께 SELECT 하여 모두 영속화
+     * @return
+     */
+
     public List<Order> findAllWithMemberDelivery() {
         return em.createQuery(
                     "select o from Order o" +
@@ -104,4 +111,19 @@ public class OrderRepository {
                     " join fetch o.delivery d", Order.class
             ).getResultList();
     }
+
+    /**
+     * Fetch Join과 달리 연관 Entity에 Join을 걸어도 실제 쿼리에서 SELECT 하는 Entity는
+     *      * 오직 JPQL에서 조회하는 주체가 되는 Entity만 조회하여 영속화
+     * @return
+     */
+//    public List<OrderSimpleQueryDto> findOrderDtos() {
+//        return em.createQuery("select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)"+
+//                        " from Order o"+
+//                " join o.member m" +
+//                " join o.delivery d", OrderSimpleQueryDto.class)
+//                .getResultList();
+//
+//    }
+
 }
