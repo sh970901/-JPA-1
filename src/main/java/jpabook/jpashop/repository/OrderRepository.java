@@ -130,7 +130,7 @@ public class OrderRepository {
         //distinct -> DB는 데이터베이스 한줄이 모두 똑같아야 제외가 된다.
         //jpa에서는 id값이 같으면 애플리케이션 레벨에서 중복을 제거해서 컬렉션에 담아줌.
 //        페이징이 불가 -> 페이징을 메모리에서 돌림 (애플리케이션)
-        //기대한 order는 두개. 총 네개가 나오기 때문에 distinct를 붙였지만 paging 처리할 때 기존에 네개를 기준으로 받아오기 때문에 jpa는 메모리에서 돌리려고 함
+        //기대한 order는 두개. 하지만 총 네개가 나오기 때문에 distinct를 붙였지만 paging 처리할 때 기존에 네개를 기준으로 받아오기 때문에 jpa는 메모리에서 돌리려고 함
         //1대다에서는 페이징을 쓰지말자...
         return em.createQuery(
                 "select distinct o from Order o" +
@@ -141,4 +141,13 @@ public class OrderRepository {
         ).getResultList();
     }
 
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member" +
+                        " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }

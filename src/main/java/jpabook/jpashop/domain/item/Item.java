@@ -5,9 +5,11 @@ import jpabook.jpashop.domain.Category;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) //한 테이블에 다 때려박음

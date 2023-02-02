@@ -12,6 +12,7 @@ spring:
       hibernate:
 #          show_sql: true 얘는 sout로 남김
         format_sql: true
+        default_batch_fetch_size: 100 #IN(?,?) 을 사용, 미리 데이터 땡겨옴
 
 logging:
   level:

@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id") //외래키가 걸림 //Many쪽이 외래키가 걸리고 연관 관계 주인으로 잡으면 편함
     private Member member;
-
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //persist 시 자동으로 딸려 영속성 저장됨
     private List<OrderItem> orderItems = new ArrayList<>();
