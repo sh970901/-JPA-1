@@ -58,8 +58,8 @@ public class OrderApiController {
         return collect;
     }
 
-    //페치 조인 최적화
-    //1대다의 경우 페이징이 불가 -> 페이징을 메모리에서 돌림 (애플리케이션)
+    //페치 조인 최적화 distinct -> 데이터 뻥튀기되는거 4개를 id 중복 제거해서 2개만 받음
+    //1대다의 경우 페이징이 불가 -> 페이징을 메모리에서 돌림 (애플리케이션) 1에서 4개를 조회하라 다 받아와서 limit offset을 메모리에서 돌림
     @GetMapping("/api/v3/orders")
     public List<OrderDto> orderV3(){
         List<Order> orders = orderRepository.findAllWithItem();

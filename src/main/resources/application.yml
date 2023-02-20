@@ -12,7 +12,10 @@ spring:
       hibernate:
 #          show_sql: true 얘는 sout로 남김
         format_sql: true
-        default_batch_fetch_size: 100 #IN(?,?) 을 사용, 미리 데이터 땡겨옴
+#        default_batch_fetch_size: 100 #IN(?,?) 을 사용, 미리 데이터 땡겨옴
+    open-in-view: true
+    # 기본값: true, 트랜잭션을 시작할 때 영속성 컨텍스트가 컨넥션을 가져온다. 언제 다시 돌려줄까? OSIV가 켜져있으면 API의 경우 반환할 때까지 , 화면에 뿌려질때까지 컨넥션을 물고 있다.
+    # 그렇기 때문에 API 컨트롤러에서 지연로딩이 가능했다.
 
 logging:
   level:
